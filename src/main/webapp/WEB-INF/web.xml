@@ -52,4 +52,13 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!-- include jsp   -->	
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude>		
+			<include-coda>/WEB-INF/views/inc/foot.jspf</include-coda>
+		</jsp-property-group>
+	</jsp-config>
+	
 </web-app>

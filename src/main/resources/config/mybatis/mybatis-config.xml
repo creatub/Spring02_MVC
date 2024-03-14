@@ -6,11 +6,14 @@
 	<!-- 타입 별칭 설정============================ -->
 	<typeAliases>
 		<typeAlias type="com.memo.model.MemoVO" alias="Memo" />
+		<typeAlias type="com.shop.domain.CategoryVO" alias="Category" />
+		<typeAlias type="com.shop.domain.ProductVO" alias="Product" />
 	</typeAliases>
 	<!-- 매퍼 정의================================ -->
 	<mappers>
 		<mapper resource="config/mapper/SampleMapper.xml" />
 		<mapper resource="config/mapper/MemoMapper.xml" />
 		<!-- <mapper resource="config/mapper/MemoMapperMySQL.xml" /> -->
+		<mapper resource="config/mapper/ProductMapper.xml" />
 	</mappers>
 </configuration>

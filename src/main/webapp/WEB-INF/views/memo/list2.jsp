@@ -48,7 +48,7 @@
 <br>
 	<!-- 컨트롤러 url 매핑 이름 써주면 갖고옴-->
 	<c:import url="/memo" />
-<br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br> 
 
 <!-- --------------------------- -->
 <div id="memoList">

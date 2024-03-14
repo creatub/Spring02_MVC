@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 
+3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.mapper.ProductMapper">
+	<select id="getUpCategory" resultType="Category">
+		select * from upCategory order by 1 asc
+	</select>
+	
+	<insert id="productInsert" parameterType="Product">
+		<selectKey keyProperty="pnum" resultType="_int" order="BEFORE">
+			select product_seq.nextval from dual
+		</selectKey>
+		insert into products values(#{pnum},#{pname},#{pimage1:VARCHAR},
+		#{pimage2:VARCHAR},#{pimage3:VARCHAR},#{price},#{saleprice:NUMERIC},
+		#{pqty:NUMERIC},#{point:NUMERIC},#{pspec},#{pcontents:VARCHAR},
+		#{pcompany:VARCHAR},sysdate,#{upCg_code},#{downCg_code})
+	</insert>
+	
+	<select id="productList" resultType="Product">
+		select p.*,
+		(select upCg_name from upCategory where upCg_code = p.upCg_code) upCg_name,
+		(select downCg_name from downCategory where downCg_code=p.downCg_code) downCg_name
+		from products p
+		order by pnum desc
+	</select>
+	
+	<delete id="productDelete" parameterType="_int">
+		delete from products where pnum=#{value}
+	</delete>
+</mapper>

@@ -20,9 +20,17 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+	<!-- 파일 업로드를 위한 MultipartResolver빈 등록 ========== -->
+	<!-- 주의: id를 반드시 multipartResolver로 등록해야 한다. -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="UTF-8" />
+		<beans:property name="maxUploadSize" value="-1"/>
+		<!-- -1 주면 무제한 업로드 가능 -->
+	</beans:bean>
 	
 	<context:component-scan base-package="com.multi.campus, com.memo.controller, com.memo.model" />
 	<context:component-scan base-package="com.memo.service, com.common" />
+	<context:component-scan base-package="com.shop, com" />
 	
 	
 	
