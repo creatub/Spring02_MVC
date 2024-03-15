@@ -40,8 +40,12 @@
 								</a>
 							</td>
 							<td>
-							정 가 :<del>${item.price }</del> 원 <br>
-							판매가 :<b>${item.saleprice }</b>원 <br>
+							정 가 :<del>
+								<fmt:formatNumber value="${item.price}" pattern="###,###"/>
+							</del> 원 <br>
+							판매가 :<b>
+								<fmt:formatNumber value="${item.saleprice}" pattern="###,###"/>
+							</b>원 <br>
 							<span class="badge badge-danger">${item.percent }% 할인</span>
 							<span class="badge badge-warning">${item.point }p 적립</span>
 							</td>

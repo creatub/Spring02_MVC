@@ -48,12 +48,12 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ProductVO getProduct(int pnum) {
-		return null;
+		return prodMapper.getProduct(pnum);
 	}
 
 	@Override
 	public int productUpdate(ProductVO prod) {
-		return 0;
+		return prodMapper.productUpdate(prod);
 	}
 
 	@Override

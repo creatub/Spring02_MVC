@@ -1,0 +1,38 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<h2 class="text-primary">NEW 상품</h2>
+<div class="row mt-5">
+	<c:if test="${newItems eq null or empty newItems }">
+		<div class="col-3 text-center">
+			<h4>상품 준비중</h4>
+		</div>	
+	</c:if>
+	
+	<c:if test="${newItems ne null and not empty newItems}">
+		<c:forEach var="item" items="${newItems}" varStatus="state" begin="0" end="7">
+			<div class="col-3 text-center">
+			<%-- <h4>반복문 횟수: ${state.count } / 반복문 인덱스: ${state.index}</h4> --%>
+				<c:choose>
+					<c:when test="${item.pimage1 ne null}">
+						<a href="prodDetail?pnum=${item.pnum}">
+						<img src="resources/product_images/${item.pimage1}" class="img-fluid"></a>
+					</c:when>
+					<c:otherwise>
+						<a href="prodDetail?pnum=${item.pnum}">
+						<img src="resources/product_images/noimage.png" class="img-fluid"></a>
+					</c:otherwise>
+				</c:choose>
+				<br><br>
+				<h4>${item.pname}</h4>
+				<del><fmt:formatNumber value="${item.price}" pattern="###,###"/></del><br>
+				<span class="text-danger"><fmt:formatNumber value="${item.saleprice}" pattern="###,###"/></span><br>
+				<span class="badge badge-danger">${item.percent}% 할인</span><br>
+				<span class="badge badge-success">${item.point}point</span>
+			</div><!-- .col-3 end -->
+			<c:if test="${state.count mod 4 == 0}">
+				<!-- 행을 닫고 새로운 행을 시작하자 -->
+				</div><div class="row mt-5">
+			</c:if>
+		</c:forEach>
+	</c:if>
+</div><!-- .row end -->

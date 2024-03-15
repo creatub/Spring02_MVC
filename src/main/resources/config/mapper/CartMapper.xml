@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 
+3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.mapper.CartMapper">
+	<select id="selectCartNum" resultType="int" parameterType="com.shop.domain.CartVO">
+		select cnum from cart where pnum=#{pnum} and userid=#{userid}
+ 	</select>
+ 	
+ 	<insert id="addCart" parameterType="Cart">
+ 		<selectKey keyProperty="cnum" resultType="_int" order="BEFORE">
+ 			select cart_seq.nextval from dual
+ 		</selectKey>
+ 		insert into cart(cnum,userid,pnum,pqty,cdate)
+ 		values(#{cnum},#{userid},#{pnum},#{pqty},sysdate)
+ 	</insert>
+
+	<update id="updateCartQty" parameterType="Cart">
+		update cart
+		<set>
+			pqty=pqty+#{pqty}
+		</set>
+		<where>
+			pnum=#{pnum} and userid=#{userid}
+		</where>
+	</update>
+	
+	<!-- 장바구니 목록 -->
+	<select id="selectCartView" parameterType="string" resultMap="CartMap">
+		select c.*, p.pname, p.pimage1, price, saleprice, point
+		from cart c join products p 
+		on c.pnum=p.pnum 
+		and c.userid=#{userid}
+	</select>
+	
+	<!-- join절에서 사용할 매핑 정보 Cart==>CartVO -->
+	<resultMap type="Cart" id="CartMap">
+		<!-- db컬럼과 Java Object 프로퍼티명과 매핑 -->
+		<id property="cnum" column="cnum" />
+		<!-- pk를 id 엘리먼트에 지정, property는 Java객체의 프로퍼티명, column은 db의 컬럼명 -->
+		<result property="userid" column="userid" />
+		<result property="pnum" column="pnum" />
+		<result property="pqty" column="pqty" />
+		<result property="cdate" column="cdate" />
+		<!-- CartVO has many products (일대다 관계) ==> collection -->
+		<!-- CartVO has a member (일대일 관계) ==> association 사용 -->
+		<collection property="items" javaType="java.util.ArrayList" 
+		ofType="Product">
+			<result property="pnum" column="pnum" />
+			<result property="pname" column="pname" />
+			<result property="pimage1" column="pimage1" />
+			<result property="price" column="price" />
+			<result property="saleprice" column="saleprice" />
+			<result property="point" column="point" />
+			<result property="pqty" column="pqty" />
+		</collection>
+	</resultMap>
+	
+</mapper>

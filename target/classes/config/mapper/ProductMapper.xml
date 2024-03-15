@@ -25,7 +25,44 @@
 		order by pnum desc
 	</select>
 	
+	<select id="getProduct" resultType="Product" parameterType="_int">
+		select p.*,
+		(select upCg_name from upCategory where upCg_code = p.upCg_code) upCg_name,
+		(select downCg_name from downCategory where downCg_code=p.downCg_code) downCg_name
+		from products p
+		where pnum=#{value}
+	</select>
+	
+	<select id="selectByPspec" resultType="Product" parameterType="string">
+		select * from products where pspec=upper(#{pspec})
+		order by pnum desc
+	</select>
+	
+	<update id="productUpdate" parameterType="Product">
+		update products
+		<set>
+			pname=#{pname}, price=#{price}, saleprice=#{saleprice:NUMERIC}
+			,pqty=#{pqty:NUMERIC}, point=#{point:NUMERIC}, pspec=#{pspec:VARCHAR}, pcontents=#{pcontents:VARCHAR}
+			,pcompany=#{pcompany:VARCHAR}, upCg_code=#{upCg_code}, downCg_code=#{downCg_code}
+			<if test="pimage1 !=null and pimage1 !='' ">
+				,pimage1=#{pimage1}
+			</if>
+			<if test="pimage2 !=null and pimage2 !='' ">
+				,pimage2=#{pimage2}
+			</if>
+			<if test="pimage3 !=null and pimage3 !='' ">
+				,pimage3=#{pimage3}
+			</if>
+			
+		</set>
+		<where>
+			pnum=#{pnum}
+		</where>
+	</update>
+	
 	<delete id="productDelete" parameterType="_int">
 		delete from products where pnum=#{value}
 	</delete>
+	
+	
 </mapper>
