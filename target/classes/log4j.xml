@@ -14,7 +14,7 @@
 	<logger name="com.multi.campus">
 		<level value="info" />
 	</logger>
-	<logger name="com.shop">
+	<logger name="com.user">
 		<level value="debug" />
 	</logger>
 	<logger name="com.memo.controller">

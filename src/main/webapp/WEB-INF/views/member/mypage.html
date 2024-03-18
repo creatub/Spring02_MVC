@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function member_delete(){
+		if(!frm1.id.value){
+			alert('탈퇴할 회원의 아이디를 입력하세요');
+			frm1.id.focus();
+			return;
+		}
+		let yn = confirm("정말 탈퇴하시겠습니까?");
+		if(yn){
+			frm1.submit(); 
+		}
+	}
+	function member_update(){
+		if(!frm2.id.value){
+			alert('수정할 회원의 아이디를 확인하세요');
+			frm2.id.focus();
+			return false;
+		}
+		return true;
+	}//-----------------------
+</script>
+
+
+</head>
+<body>
+<div id="wrap">
+	<h1>MyPage</h1>
+	<h2>회원 탈퇴</h2>
+		<form name="frm1" method="get" action="../MemberDelete">
+			탈퇴할 회원 아이디: <input type="text" name="id">
+			<button type="button" onclick="member_delete()">회원탈퇴</button> 
+		</form>
+		<hr>
+		<form name="frm2" method="get" action="../MemberUpdate" onsubmit="return member_update()">
+			수정할 회원 아이디: <input type="text" name="id">
+			<button type="submit">회원정보 수정하러 가기</button> 
+		</form>
+
+
+</div>
+</body>
+</html>

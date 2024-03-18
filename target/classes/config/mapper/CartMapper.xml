@@ -26,12 +26,25 @@
 	</update>
 	
 	<!-- 장바구니 목록 -->
-	<select id="selectCartView" parameterType="string" resultMap="CartMap">
+	<select id="selectCartView_old" parameterType="string" resultMap="CartMap">
 		select c.*, p.pname, p.pimage1, price, saleprice, point
 		from cart c join products p 
 		on c.pnum=p.pnum 
 		and c.userid=#{userid}
 	</select>
+	<!-- 위 SQL문을 이용해서 장바구니 VIEW를 만들자
+	create or replace view cartView
+	as 
+	select c.*, p.pname, p.pimage1, price, saleprice, point
+	,(c.pqty * p.saleprice) totalPrice
+	,(c.pqty * p.point) totalPoint
+	from cart c join products p 
+	on c.pnum=p.pnum;
+	 -->
+	<select id="selectCartView" parameterType="string" resultMap="CartMap">
+		select * from cartView where userid=#{userid}
+	</select>
+	
 	
 	<!-- join절에서 사용할 매핑 정보 Cart==>CartVO -->
 	<resultMap type="Cart" id="CartMap">
@@ -53,7 +66,26 @@
 			<result property="saleprice" column="saleprice" />
 			<result property="point" column="point" />
 			<result property="pqty" column="pqty" />
+			<!-- cartView를 이용할 때 추가 -->
+			<result property='totalPrice' column='totalPrice' />
+			<result property='totalPoint' column='totalPoint' />
 		</collection>
 	</resultMap>
 	
+	<select id="getCartTotal" resultType="Cart" parameterType="string">
+		select sum(totalPrice) cartTotalPrice, sum(totalPoint) cartTotalPoint 
+		from cartView where userid=#{userid}
+	</select>
+	
+	<delete id="delCart" parameterType="_int">
+		delete from cart where cnum=#{value}
+	</delete>
+	
+	<delete id="delCartAll" parameterType="string">
+		delete from cart where userid=#{userid}
+	</delete>
+	
+	<update id="editCart" parameterType="Cart">
+		update cart set pqty=#{pqty} where cnum=#{cnum}
+	</update>
 </mapper>

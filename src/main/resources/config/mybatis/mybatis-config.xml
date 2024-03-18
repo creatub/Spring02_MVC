@@ -9,6 +9,7 @@
 		<typeAlias type="com.shop.domain.CategoryVO" alias="Category" />
 		<typeAlias type="com.shop.domain.ProductVO" alias="Product" />
 		<typeAlias type="com.shop.domain.CartVO" alias="Cart" />
+		<typeAlias type="com.user.domain.MemberVO" alias="Member" />
 	</typeAliases>
 	<!-- 매퍼 정의================================ -->
 	<mappers>
@@ -17,5 +18,6 @@
 		<!-- <mapper resource="config/mapper/MemoMapperMySQL.xml" /> -->
 		<mapper resource="config/mapper/ProductMapper.xml" />
 		<mapper resource="config/mapper/CartMapper.xml" />
+		<mapper resource="config/mapper/MemberMapper.xml" />
 	</mappers>
 </configuration>

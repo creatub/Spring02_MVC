@@ -212,7 +212,19 @@ create table cart(
 drop sequence cart_seq;
 create sequence cart_seq nocache;
 
+-- 장바구니 뷰 생성 --------------
+create or replace view cartView
+as 
+select c.*, p.pname, p.pimage1, price, saleprice, point
+,(c.pqty * p.saleprice) totalPrice
+,(c.pqty * p.point) totalPoint
+from cart c join products p 
+on c.pnum=p.pnum;
 
+select * from cartView where userid='hong';
+
+select sum(totalPrice) totalPrice, sum(totalPoint) totalPoint
+from cartView where userid='hong';
 
 
 
