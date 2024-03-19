@@ -14,7 +14,8 @@
 <div class="col-md-10 offset-1">
 	<h2 class="text-center mt-4">Signup Page</h2>
         <br><br>
-        
+        <h1>정규표현식-RegExp객체 사용</h1>
+        <h2>특정 규칙을 가진 문자열 집합을 표현하는 형식언어</h2>
         <form name="mf" action="signup" method="post">
     
         <table  id="userTable" class="table">             
@@ -29,7 +30,7 @@
                     <td>
                         <input type="text" name="userid" class="form-control" readonly>
                         <button type="button" class="btn btn-success" onclick="openWin()">아이디 중복체크</button>
-                    </td>
+                    </td> 
                 </tr>
                 <tr>
                     <th>비밀번호</th>

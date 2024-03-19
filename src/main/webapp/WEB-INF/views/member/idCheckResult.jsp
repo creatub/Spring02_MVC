@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
-	.wrap header, footer{
+	.jumbotron, .navbar{
 		display:none;
 	}
 	#id{
@@ -11,9 +11,9 @@
 </style>
 <script>
 	function id_check(){
-		if(!idf.id.value){
+		if(!idf.userid.value){
 			alert('아이디를 입력하세요');
-			idf.id.focus();
+			idf.userid.focus();
 			return false;
 		}//---
 		return true;
@@ -32,15 +32,16 @@
 		<h3 style="color:red">${msg}</h3>
 		<br>
 		<c:if test="${result eq 'ok'}">
-		<button onclick="setId('${uid}')">아이디 사용하기</button>
+		<button class="btn btn-outline-success" onclick="setId('${uid}')">아이디 사용하기</button>
 		</c:if>
 		<br>
 	</div>
 	<form name="idf" action="idCheck" method="post" onsubmit="return id_check()">
 	<!-- id_check가 반환하는 값이 true이면 반환 false이면 반환 안함 -->
 		<label for="id">아이디</label>
-		<input type="text" name="id" id="id" placeholder="ID" autofocus="autofocus">
-		<button class="btn">확  인</button>
+		<input type="text" name="userid" id="userid" class="form-control"
+		placeholder="ID" autofocus="autofocus"><br>
+		<button class="btn btn-outline-success">확  인</button>
 	
 	</form>
 

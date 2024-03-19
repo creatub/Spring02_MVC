@@ -19,9 +19,9 @@ public class CommonExceptionAdvice {
 	@Inject
 	private CommonUtil util;
 	
-	@ExceptionHandler(NumberFormatException.class)
+	@ExceptionHandler({NumberFormatException.class, NotUserException.class})
 	public String exceptionHandler(Exception ex, Model m) {
-		String msg = ex.getMessage();//예외 메시지
+		String msg = ex.getMessage();//예외 메시지 (스택기록을 메시지로 띄워 보여줌)
 		
 		return util.addMsgBack(m,msg);
 	}//----------
