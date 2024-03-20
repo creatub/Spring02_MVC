@@ -23,7 +23,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public List<CategoryVO> getDownCategory(int upCg_code) {
-		return null;
+		return prodMapper.getDownCategory(upCg_code);
 	}
 
 	@Override

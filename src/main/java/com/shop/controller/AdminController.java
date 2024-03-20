@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.common.util.CommonUtil;
@@ -42,6 +43,27 @@ public class AdminController {
 		
 		return "admin/prodInput";
 	}//------------
+	
+	@GetMapping("/downCgList")
+	public String getDownCategory(Model m, int upCg_code) {
+		log.info("upCg_code");
+		
+		List<CategoryVO> cgList=adminService.getDownCategory(upCg_code);
+		
+		m.addAttribute("cgList",cgList);
+		
+		return "admin/downCategory";
+	}
+	
+	//produces를 안 넣어주면 xml이 default로 되어있어서 json을 다시 선언해줘야함
+	@GetMapping(value="/downCgListJSON", produces= {"application/json; charset=UTF-8"})//produces에 만들어내는 문서의 컨텐트 타입을 지정
+	@ResponseBody // 뷰네임을 반환하는 것이 아니라 응답 데이터를 반환한다는 의미
+	public List<CategoryVO> getDownCategoryJSON(Model m, int upCg_code) {
+		log.info("upCg_code");
+		List<CategoryVO> cgList=adminService.getDownCategory(upCg_code);
+		
+		return cgList;
+	}
 	
 	//0. servlet-context.xml에 multipartResolver빈 등록해야 함
 	@PostMapping("/prodInsert")

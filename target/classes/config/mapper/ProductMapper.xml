@@ -7,6 +7,12 @@
 		select * from upCategory order by 1 asc
 	</select>
 	
+	<select id="getDownCategory" resultType="Category" parameterType="_int">
+		select * from downCategory
+		<where>upCg_code=#{value}</where>
+		order by downCg_code asc
+	</select>
+	
 	<insert id="productInsert" parameterType="Product">
 		<selectKey keyProperty="pnum" resultType="_int" order="BEFORE">
 			select product_seq.nextval from dual
