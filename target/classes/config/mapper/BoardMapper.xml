@@ -19,12 +19,110 @@
 		-->
 	</insert>
 	
+	<!-- 검색에 사용할 where절 -->
+	<sql id="findWhere">
+		<if test="findType!=null and findKeyword!=''">
+			<where>
+				<if test="findType==1">
+					subject like '%'||#{findKeyword}||'%'
+				</if>
+				<if test="findType==2">
+					userid like '%'||#{findKeyword}||'%'
+				</if>
+				<if test="findType==3">
+					content like '%'||#{findKeyword}||'%'
+				</if>
+			</where>
+		</if>
+	</sql>
+	
+	<!-- 페이징 처리 관련 쿼리문 -->
 	<select id="getBoardAll" resultType="Board" parameterType="Paging" >
-		select * from spring_board order by 1 desc
+		
+		select * from (
+		select row_number() over(order by refer desc, sunbun asc) rn,
+		(sysdate-wdate) newImg, spring_board.*
+		from spring_board
+		<include refid="findWhere"/>
+		)
+		<![CDATA[
+		where rn > #{start} and rn< #{end}
+		]]>
+	</select>
+	
+	<select id="getBoardAll_old" resultType="Board" parameterType="Paging" >
+		select (sysdate-wdate) newImg,
+		spring_board.* 
+		from spring_board order by refer desc, sunbun asc
 	</select>
 	
 	<select id="getTotalCount" resultType="_int" parameterType="Paging">
 		select count(num) from spring_board
+		<include refid="findWhere"/>
 	</select>
+	
+	<select id="selectBoardByNum" resultType="Board" parameterType="_int">
+		select * from spring_board
+		<where>
+			num=#{value}
+		</where>
+	</select>
+	
+	<update id="updateReadnum">
+		update spring_board set readnum=readnum+1
+		<where>num=#{value}</where>
+	</update>
+	<!--[답변 글쓰기 관련] 1단계. 부모글의 refer,lev,sunbun가져오기  -->
+	<select id="selectRefLevSunbun" resultType="Board" parameterType="_int">
+		select refer, lev, sunbun from spring_board
+		<where>num=#{value}</where>
+	</select>
+	
+	<!--[답변 글쓰기 관련] 2단계 기존에 달려있는 답변글들의 순번을 하나씩 증가시키자. (뒤로 밀어내기)
+   		왜? 내가 방금쓴 답변글이 위로 올라오게 하기 위해 ==> update문
+    -->
+    <update id="updateSunbun" parameterType="Board">
+    	update spring_board set sunbun=sunbun+1
+    	<where>
+    		refer=#{refer} and sunbun > #{sunbun}
+    	</where>
+    </update>
+	
+	<!--[답변 글쓰기 관련] 3단계. 내 답변글 insert 하기 -->
+	<insert id="rewriteBoard" parameterType="Board">
+		<selectKey keyProperty="num" resultType="_int" order="BEFORE">
+			select spring_board_seq.nextval from dual
+		</selectKey>
+		insert into spring_board(num,userid,subject,content,passwd,
+		filename,filesize,originFilename,refer,lev,sunbun)
+		values(#{num},#{userid},#{subject:VARCHAR},#{content:VARCHAR},#{passwd}
+		,#{filename:VARCHAR},#{filesize:NUMERIC},#{originFilename:VARCHAR}
+		,#{refer},#{lev},#{sunbun})
+		<!-- 답변 글쓰기
+			refer: 부모글과 동일한 그룹번호
+			lev: 부모lev+1
+			sunbun: 부모sunbun+1
+		 -->
+	</insert>
+	
+	<!--[글 삭제 관련]  -->
+   <select id="selectPwd" resultType="string" parameterType="int">
+   		select pwd from spring_board where num=#{num}
+   </select>
+   <delete id="deleteBoard" parameterType="int">
+   		delete from spring_board where num=#{num}
+   </delete>
+   
+   <!--[글수정 관련]  -->
+   <update id="updateBoard" parameterType="Board">
+		update spring_board set userid=#{userid}, subject=#{subject},
+		content=#{content:VARCHAR}, passwd=#{passwd}
+		<if test="filename != null and filename!=''">
+		, filename=#{filename}, filesize=#{filesize}, originFilename=#{originFilename}
+		</if>
+		<where>
+			num=#{num}
+		</where>
+	</update>
 
 </mapper>
