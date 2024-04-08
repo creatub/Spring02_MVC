@@ -128,8 +128,8 @@ public class BoardController {
 		m.addAttribute("page", page);
 		m.addAttribute("pageNavi", pageNavi);
 		
-//		return "board/boardList";
-		return "board/boardList2";
+		return "board/boardList";
+//		return "board/boardList2";
 	}//-----------------------------
 	
 	@GetMapping("/board/view/{num}")

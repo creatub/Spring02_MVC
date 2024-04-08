@@ -9,7 +9,7 @@ import lombok.Data;
 public class PagingVO {
 	//페이징 처리 관련 프로퍼티
 	private int pageNum;//현재 보여줄 페이지 번호
-	private int oneRecordPage; // 한 페이지 당 보여줄 목록 개수
+	private int oneRecordPage=5; // 한 페이지 당 보여줄 목록 개수
 	private int totalCount;//총 게시글 수
 	private int pageCount;//페이지 수
 	

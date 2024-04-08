@@ -39,7 +39,7 @@
 			<th width="10%">조회수</th>			
 		</tr>
 		<c:choose>
-            <c:when test="${boardArr eq null or empty boardArr}">
+            <c:when test="${boardList eq null or empty boardList}">
 			<tr>
 				<td colspan="5">
 					<b>데이터가 없습니다</b>
@@ -47,7 +47,7 @@
 			</tr>
 			</c:when>
             <c:otherwise>
-              	<c:forEach var="vo" items="${boardArr}" varStatus="state">
+              	<c:forEach var="vo" items="${boardList}" varStatus="state">
 				<tr>
 					<td><c:out value="${vo.num}"/></td>
 					<td align="left" style="padding-left:20px">
